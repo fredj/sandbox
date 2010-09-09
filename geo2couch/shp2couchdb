@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+from types import StringTypes
+from uuid import uuid4
+from json import loads
+from osgeo import ogr
+from couchdb import Server
+
+def convert(v):
+    if type(v) in StringTypes:
+        return v.decode('iso-8859-1')
+    else:
+        return v
+
+name = sys.argv[1]
+source = sys.argv[2]
+
+server = Server('http://localhost:5984/')
+if name in server:
+    del server[name]
+db = server.create(name)
+
+print "loading '%s'"%source
+ds = ogr.Open(source)
+layer = ds.GetLayer()
+
+for feature in layer:
+    id = uuid4().hex
+    db[id] = {
+        'type': 'Feature',
+        'properties': dict([(k.lower(), convert(v)) for k,v in feature.items().iteritems()]),
+        'geometry': loads(feature.geometry().ExportToJson()) # ouch ....
+    }
+    print "upload '%s'"%id
+
+ds.Destroy()
+
+# ogr bugs:
+#    ogr.Open(source).GetLayer()
+#    feature.ExportToJson()

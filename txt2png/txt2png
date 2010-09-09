@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+"""
+see: http://blog.nihilogic.dk/2008/05/compression-using-canvas-and-png.html
+
+usage:
+  txt2png file.txt file.png
+
+"""
+
+import sys
+from PIL import Image
+from math import sqrt, ceil
+
+txt = open(sys.argv[1]).read()
+size = int(ceil(sqrt(len(txt))))
+im = Image.new('P', (size, size))
+
+im.putdata([ord(c) for c in txt])
+im.save(sys.argv[2], optimize=True)

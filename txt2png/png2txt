@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+"""
+see: http://blog.nihilogic.dk/2008/05/compression-using-canvas-and-png.html
+
+usage:
+  png2txt file.png file.txt
+
+"""
+
+import sys
+from PIL import Image
+
+im = Image.open(sys.argv[1])
+txt = open(sys.argv[2], 'w')
+
+txt.write(''.join([chr(i) for i in im.getdata() if i > 0]))
+txt.close()
