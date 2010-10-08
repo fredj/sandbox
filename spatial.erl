@@ -26,7 +26,7 @@ len({point, _}) -> 0.0;
 len({linestring, Coords}) ->
     {_, Sum} = lists:foldl(fun(Point, {LastPoint, Sum}) ->
                         {Point, Sum + distance(Point, LastPoint)}
-                end, {hd(Coords), 0}, Coords),
+                end, {hd(Coords), 0.0}, Coords),
     Sum;
 len({polygon, Coords}) ->
     len({linestring, hd(Coords)}).
