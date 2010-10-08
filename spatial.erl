@@ -10,9 +10,7 @@ make_point(X, Y) ->
 make_polygon(Exterior, Interiors) ->
     unimplemented.
 make_line(Points) when is_list(Points) ->
-    make_line([Points]);
-make_line({point, [X, Y]}) ->
-    make_line([{point, [X, Y]}]).
+    {linestring, proplists:get_all_values(point, Points)}.
 make_line(StartPoint, EndPoint) ->
     make_line([StartPoint, EndPoint]).
 
@@ -30,6 +28,12 @@ len({polygon, Coords}) ->
 distance([X, Y], [X, Y]) -> 0.0;
 distance([X1, Y1], [X2, Y2]) ->
     math:sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1)).
+
+
+constructors_test() ->
+    ?assertEqual(make_point(12, 9), {point, [12, 9]}),
+    ?assertEqual(make_line([make_point(9,20), make_point(12,4)]), 
+                 {linestring, [[9,20], [12, 4]]}).
 
 len_test() ->
     ?assertEqual(len({point, [20, 42]}), 0.0),
