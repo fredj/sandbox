@@ -10,8 +10,10 @@ make_point(X, Y) ->
 
 make_polygon(Exterior) ->
     make_polygon(Exterior, []).
-make_polygon(Exterior, Interiors) ->
+make_polygon({linestring, Coords}, Interiors) ->
     unimplemented.
+    %% Holes = lists:map(fun({linestring, C}) -> C end, Interiors),
+    %% {polygon, [Coords|Holes]}.
 
 make_line(Points) when is_list(Points) ->
     {linestring, proplists:get_all_values(point, Points)}.
@@ -37,8 +39,14 @@ distance([X1, Y1], [X2, Y2]) ->
 
 constructors_test() ->
     ?assertEqual(make_point(12, 9), {point, [12, 9]}),
-    ?assertEqual(make_line([make_point(9,20), make_point(12,4)]), 
-                 {linestring, [[9,20], [12, 4]]}).
+    ?assertEqual(make_line([make_point(9,20), make_point(12,4)]),
+                 {linestring, [[9,20], [12, 4]]}),
+
+    Ext = make_line([make_point(12,-1), make_point(14,42)]),
+    ?assertEqual(make_polygon(Ext), {polygon, [[[12,-1], [14,42]]]}),
+    Int = [make_line([make_point(9,-12), make_point(0,0)])],
+    ?assertEqual(make_polygon(Ext, Int), {polygon, [[[12,-1], [14,42]],
+                                                    [[9,12], [0,0]]]}).
 
 len_test() ->
     ?assertEqual(len({point, [20, 42]}), 0.0),
