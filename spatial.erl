@@ -2,17 +2,22 @@
 
 -module(spatial).
 -include_lib("eunit/include/eunit.hrl").
--export([make_point/2, make_polygon/2, make_line/1, make_line/2, len/1]).
+-export([make_point/2, make_polygon/1, make_polygon/2, make_line/1, make_line/2, len/1]).
 
 %% constructors.
 make_point(X, Y) ->
     {point, [X, Y]}.
+
+make_polygon(Exterior) ->
+    make_polygon(Exterior, []).
 make_polygon(Exterior, Interiors) ->
     unimplemented.
+
 make_line(Points) when is_list(Points) ->
     {linestring, proplists:get_all_values(point, Points)}.
 make_line(StartPoint, EndPoint) ->
     make_line([StartPoint, EndPoint]).
+
 
 %% 'length' is a BIF !
 len({point, _}) -> 0.0;
