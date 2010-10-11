@@ -1,4 +1,5 @@
 %% http://postgis.refractions.net/documentation/manual-1.5/reference.html
+%% http://local.wasp.uwa.edu.au/~pbourke/geometry/
 
 -module(spatial).
 -include_lib("eunit/include/eunit.hrl").
