@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="../style.css" type="text/css" />
+    <script src="../OpenLayers.js"></script>
+    <script type="text/javascript">
+    var map, vector;
+
+        function init() {
+            map = new OpenLayers.Map('map', {
+                controls: [new OpenLayers.Control.Navigation()],
+                theme: false
+            });
+            map.addLayer(new OpenLayers.Layer.WMS("OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0", {
+                layers: 'basic'
+            }));
+            var vector = new OpenLayers.Layer.Vector("vector");
+            map.addLayer(vector);
+            map.zoomToMaxExtent();
+
+            var dropbox;
+            dropbox = document.getElementById("map");
+
+            dropbox.addEventListener("dragover", function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+            }, false);
+
+            dropbox.addEventListener("drop", function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                var files = evt.dataTransfer.files;
+                for (var i = 0, len = files.length; i < len; i++) {
+                    var file = files[i], format;
+                    if (file.type == "application/vnd.google-earth.kml+xml") {
+                        format = new OpenLayers.Format.KML({
+                            extractStyles: true
+                        });
+                    } else if (file.fileName.indexOf(".gpx") != -1) {
+                        format = new OpenLayers.Format.GPX();
+                    }
+                    if (format) {
+                        var reader = new FileReader();
+                        reader.onloadend = function() {
+                            vector.addFeatures(format.read(this.result))
+                            vector.map.zoomToExtent(vector.getDataExtent());
+                        };
+                        reader.readAsText(file);
+                    }
+                }
+            }, false);
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <h1 id="title">File drag and drop</h1>
+
+    <p id="shortdesc">
+       File API demo.
+    </p>
+
+    <div id="map" class="smallmap"></div>
+
+    <div id="docs">
+       Drop a KML or GPX file into the map.
+    </div>
+
+  </body>
+</html>
+
+
+
+
