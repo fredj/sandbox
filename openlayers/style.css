@@ -76,6 +76,7 @@ h6 {
     width: 512px;
     height: 256px;
     border: 1px solid #ccc;
+    background-image: url(dark-checker.png);
 }
 #tags {
     display: none;
