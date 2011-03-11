@@ -16,6 +16,7 @@ def produce():
 
 def stream(request):
     response = Response()
+    response.headers.update({'Access-Control-Allow-Origin': '*'})
     response.content_type = 'text/event-stream'
     response.cache_expires(0)
 
