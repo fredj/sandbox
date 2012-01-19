@@ -1,0 +1,12 @@
+CACHE MANIFEST
+
+
+CACHE:
+style.mobile.css
+img/locate.png
+http://openlayers.org/dev/OpenLayers.mobile.js
+https://raw.github.com/fredj/openlayers/tile-canvas/lib/OpenLayers/Tile/Image.js
+mobile.js
+
+NETWORK:
+*

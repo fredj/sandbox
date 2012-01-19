@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html manifest="offline.appcache">
+    <head>
+        <title>OpenLayers Offline Mobile Example</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="style.mobile.css" type="text/css">
+
+        <script src="http://openlayers.org/dev/OpenLayers.mobile.js"></script>
+        <script src="https://raw.github.com/fredj/openlayers/tile-canvas/lib/OpenLayers/Tile/Image.js"></script>
+        <script src="mobile.js"></script>
+    </head>
+    <body>
+        <h1 id="title">OpenLayers Offline Mobile Example</h1>
+        <div id="tags">
+            mobile offline
+        </div>
+        <p id="shortdesc">
+            A basic offline capable example.
+        </p>
+        <div id="map"></div>
+        <script>init();</script>
+    </body>
+</html>
